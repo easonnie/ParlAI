@@ -22,7 +22,7 @@ from mephisto.abstractions.blueprints.parlai_chat.parlai_chat_blueprint import (
 from omegaconf import DictConfig, MISSING
 
 from parlai.core.params import ParlaiParser
-from parlai.crowdsourcing.tasks.turn_annotations.bot_agent import TurkLikeAgent
+from parlai.crowdsourcing.tasks.model_chat.bot_agent import TurkLikeAgent
 from parlai.tasks.blended_skill_talk.agents import ContextGenerator
 
 if TYPE_CHECKING:

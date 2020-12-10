@@ -15,15 +15,15 @@ from parlai.core.worlds import validate
 from parlai.core.agents import create_agent_from_shared
 from parlai.crowdsourcing.utils.acceptability import AcceptabilityChecker
 from parlai.crowdsourcing.utils.worlds import CrowdOnboardWorld, CrowdTaskWorld
-from parlai.crowdsourcing.tasks.turn_annotations.bot_agent import TurkLikeAgent
+from parlai.crowdsourcing.tasks.model_chat.bot_agent import TurkLikeAgent
 
-from parlai.crowdsourcing.tasks.turn_annotations.constants import (
+from parlai.crowdsourcing.tasks.model_chat.constants import (
     ONBOARD_CONFIG,
     ONBOARD_FAIL,
     ONBOARD_SUCCESS,
 )
 
-from parlai.crowdsourcing.tasks.turn_annotations.utils import Compatibility
+from parlai.crowdsourcing.tasks.model_chat.utils import Compatibility
 from parlai.crowdsourcing.utils.mturk import get_mturk_id_from_mephisto_wrapper
 
 from typing import TYPE_CHECKING

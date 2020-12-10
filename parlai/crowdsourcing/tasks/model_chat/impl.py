@@ -12,10 +12,10 @@ from mephisto.tools.scripts import load_db_and_process_config
 from omegaconf import DictConfig, OmegaConf
 
 from parlai.crowdsourcing.utils.mturk import soft_block_mturk_workers
-from parlai.crowdsourcing.tasks.turn_annotations.turn_annotations_blueprint import (
+from parlai.crowdsourcing.tasks.model_chat.turn_annotations_blueprint import (
     SharedTurnAnnotationsTaskState,
 )
-import parlai.crowdsourcing.tasks.turn_annotations.worlds as world_module
+import parlai.crowdsourcing.tasks.model_chat.worlds as world_module
 
 
 def run_task(cfg: DictConfig, task_directory: str):

@@ -59,9 +59,9 @@ FORM_TASK_DATA = (
 
 try:
 
-    import parlai.crowdsourcing.tasks.turn_annotations.worlds as world_module
-    from parlai.crowdsourcing.tasks.turn_annotations.run import TASK_DIRECTORY
-    from parlai.crowdsourcing.tasks.turn_annotations.turn_annotations_blueprint import (
+    import parlai.crowdsourcing.tasks.model_chat.worlds as world_module
+    from parlai.crowdsourcing.tasks.model_chat.run import TASK_DIRECTORY
+    from parlai.crowdsourcing.tasks.model_chat.turn_annotations_blueprint import (
         SharedTurnAnnotationsTaskState,
         TurnAnnotationsBlueprintArgs,
         BLUEPRINT_TYPE,
