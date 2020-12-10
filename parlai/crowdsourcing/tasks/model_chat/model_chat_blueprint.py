@@ -220,13 +220,11 @@ class ModelChatBlueprint(ParlAIChatBlueprint):
             full_path
         ), f"Target left pane text path {full_path} doesn't exist"
 
-        assert (
-            args.blueprint.get("annotations_config_path", None) is not None
-        ), "Must provide an annotation config file"
-        full_path = os.path.expanduser(args.blueprint.annotations_config_path)
-        assert os.path.exists(
-            full_path
-        ), f"Target annotation config path {full_path} doesn't exist"
+        if args.blueprint.get("annotations_config_path", "") != "":
+            full_path = os.path.expanduser(args.blueprint.annotations_config_path)
+            assert os.path.exists(
+                full_path
+            ), f"Target annotation config path {full_path} doesn't exist"
 
         assert (
             args.blueprint.get("onboard_task_data_path", None) is not None
@@ -259,11 +257,14 @@ class ModelChatBlueprint(ParlAIChatBlueprint):
         left_pane_path = os.path.expanduser(args.blueprint.left_pane_text_path)
         with open(left_pane_path, "r") as left_pane_file:
             self.left_pane_text = left_pane_file.read()
-        annotations_config_path = os.path.expanduser(
-            args.blueprint.annotations_config_path
-        )
-        with open(annotations_config_path, "r") as annotations_config_file:
-            self.annotations_config = annotations_config_file.read()
+        if args.blueprint.get("annotations_config_path", "") != "":
+            annotations_config_path = os.path.expanduser(
+                args.blueprint.annotations_config_path
+            )
+            with open(annotations_config_path, "r") as annotations_config_file:
+                self.annotations_config = annotations_config_file.read()
+        else:
+            self.annotations_config = None
         onboard_task_data_path = os.path.expanduser(
             args.blueprint.onboard_task_data_path
         )
