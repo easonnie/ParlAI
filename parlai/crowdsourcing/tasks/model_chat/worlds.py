@@ -34,7 +34,7 @@ if TYPE_CHECKING:
     )
 
 
-class TurnAnnotationsOnboardWorld(CrowdOnboardWorld):
+class ModelChatOnboardWorld(CrowdOnboardWorld):
     """
     This onboarding world displays a sample conversation with checkboxes of the same
     annotations as in the real HIT, but it is not a live conversation (all utterances
@@ -148,7 +148,7 @@ class TurnAnnotationsOnboardWorld(CrowdOnboardWorld):
             self.onboard_statistics[self.status] += 1
 
 
-class TurnAnnotationsChatWorld(CrowdTaskWorld):
+class ModelChatChatWorld(CrowdTaskWorld):
     def __init__(self, opt, agent=None, bot=None, context_info: Optional[dict] = None):
         super().__init__(opt, agent)
 
@@ -506,7 +506,7 @@ class TurnAnnotationsChatWorld(CrowdTaskWorld):
 
 
 def make_onboarding_world(opt, agent):
-    return TurnAnnotationsOnboardWorld(opt, agent)
+    return ModelChatOnboardWorld(opt, agent)
 
 
 def validate_onboarding(data):
@@ -564,7 +564,7 @@ def make_world(opt, agents):
 
     agents[0].agent_id = "Worker"
 
-    return TurnAnnotationsChatWorld(
+    return ModelChatChatWorld(
         opt, agent=agents[0], bot=bot_worker, context_info=context_info
     )
 
