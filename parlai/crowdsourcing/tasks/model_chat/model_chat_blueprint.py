@@ -33,11 +33,11 @@ def get_task_path():
     return os.path.dirname(os.path.realpath(__file__))
 
 
-BLUEPRINT_TYPE = 'turn_annotations_blueprint'
+BLUEPRINT_TYPE = 'model_chat_blueprint'
 
 
 @dataclass
-class SharedTurnAnnotationsTaskState(SharedParlAITaskState):
+class SharedModelChatTaskState(SharedParlAITaskState):
     shared_models: Dict[str, Any] = field(default_factory=dict)
     conversations_needed: Dict[str, Any] = field(default_factory=dict)
     run_statistics: Dict[str, int] = field(default_factory=dict)
@@ -171,7 +171,7 @@ class TurnAnnotationsBlueprint(ParlAIChatBlueprint):
     """
 
     ArgsClass = TurnAnnotationsBlueprintArgs
-    SharedStateClass = SharedTurnAnnotationsTaskState
+    SharedStateClass = SharedModelChatTaskState
     BLUEPRINT_TYPE = BLUEPRINT_TYPE
 
     @classmethod

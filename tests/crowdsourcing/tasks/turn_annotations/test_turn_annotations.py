@@ -61,8 +61,8 @@ try:
 
     import parlai.crowdsourcing.tasks.model_chat.worlds as world_module
     from parlai.crowdsourcing.tasks.model_chat.run import TASK_DIRECTORY
-    from parlai.crowdsourcing.tasks.model_chat.turn_annotations_blueprint import (
-        SharedTurnAnnotationsTaskState,
+    from parlai.crowdsourcing.tasks.model_chat.model_chat_blueprint import (
+        SharedModelChatTaskState,
         TurnAnnotationsBlueprintArgs,
         BLUEPRINT_TYPE,
     )
@@ -127,7 +127,7 @@ try:
                 )
 
                 # Set up the operator and server
-                shared_state = SharedTurnAnnotationsTaskState(world_module=world_module)
+                shared_state = SharedModelChatTaskState(world_module=world_module)
                 self._set_up_server(shared_state=shared_state)
 
                 # Check that the agent states are as they should be

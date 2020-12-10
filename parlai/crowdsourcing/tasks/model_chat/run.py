@@ -12,7 +12,7 @@ import hydra
 from mephisto.operations.hydra_config import register_script_config
 from omegaconf import DictConfig
 
-from parlai.crowdsourcing.tasks.model_chat.turn_annotations_blueprint import (
+from parlai.crowdsourcing.tasks.model_chat.model_chat_blueprint import (
     BLUEPRINT_TYPE,
 )
 from parlai.crowdsourcing.tasks.model_chat.impl import run_task
