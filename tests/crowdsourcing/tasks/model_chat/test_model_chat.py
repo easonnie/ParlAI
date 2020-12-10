@@ -4,7 +4,7 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 """
-End-to-end testing for the chat demo crowdsourcing task.
+End-to-end testing for the model chat crowdsourcing task.
 """
 
 import glob
@@ -68,9 +68,9 @@ try:
     )
     from parlai.crowdsourcing.utils.tests import AbstractParlAIChatTest
 
-    class TestTurnAnnotations(AbstractParlAIChatTest):
+    class TestModelChat(AbstractParlAIChatTest):
         """
-        Test the turn annotations crowdsourcing task.
+        Test the model chat crowdsourcing task.
         """
 
         def test_base_task(self):
