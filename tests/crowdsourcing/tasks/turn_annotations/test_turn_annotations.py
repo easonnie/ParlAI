@@ -63,7 +63,7 @@ try:
     from parlai.crowdsourcing.tasks.model_chat.run import TASK_DIRECTORY
     from parlai.crowdsourcing.tasks.model_chat.model_chat_blueprint import (
         SharedModelChatTaskState,
-        TurnAnnotationsBlueprintArgs,
+        ModelChatBlueprintArgs,
         BLUEPRINT_TYPE,
     )
     from parlai.crowdsourcing.utils.tests import AbstractParlAIChatTest
@@ -96,7 +96,7 @@ try:
 
                 # Set up the config and database
                 num_blender_convos = 10
-                args = TurnAnnotationsBlueprintArgs()
+                args = ModelChatBlueprintArgs()
                 overrides = [
                     f'+mephisto.blueprint.{key}={val}'
                     for key, val in args.__dict__.items()

@@ -48,10 +48,10 @@ class SharedModelChatTaskState(SharedParlAITaskState):
 
 
 @dataclass
-class TurnAnnotationsBlueprintArgs(ParlAIChatBlueprintArgs):
+class ModelChatBlueprintArgs(ParlAIChatBlueprintArgs):
     _blueprint_type: str = BLUEPRINT_TYPE
     _group: str = field(
-        default="TurnAnnotationsBlueprint",
+        default="ModelChatBlueprint",
         metadata={
             'help': "This task runs conversations between a human and one of a set of "
             "provided models, asking workers to evaluate individual turns and "
@@ -60,11 +60,11 @@ class TurnAnnotationsBlueprintArgs(ParlAIChatBlueprintArgs):
     )
     world_file: str = field(
         default=os.path.join(get_task_path(), 'worlds.py'),
-        metadata={"help": "Path to file containing turn annotations parlai world"},
+        metadata={"help": "Path to file containing parlai world"},
     )
     custom_source_dir: str = field(
         default=os.path.join(get_task_path(), 'frontend'),
-        metadata={"help": "Path to turn annotations frontend code"},
+        metadata={"help": "Path to frontend code"},
     )
     num_turns: int = field(default=6, metadata={"help": 'minimum number of turns'})
     random_seed: int = field(
@@ -161,16 +161,16 @@ class TurnAnnotationsBlueprintArgs(ParlAIChatBlueprintArgs):
 
 
 @register_mephisto_abstraction()
-class TurnAnnotationsBlueprint(ParlAIChatBlueprint):
+class ModelChatBlueprint(ParlAIChatBlueprint):
     """
-    This Blueprint uses somewhat specialized arguments for Turn Annotations, manages
+    This Blueprint uses somewhat specialized arguments for turn annotations, manages
     their validation, and also has specialized data storage for the result format.
 
     It also has options for the onboarding data answers and the annotation bucket
     definitions.
     """
 
-    ArgsClass = TurnAnnotationsBlueprintArgs
+    ArgsClass = ModelChatBlueprintArgs
     SharedStateClass = SharedModelChatTaskState
     BLUEPRINT_TYPE = BLUEPRINT_TYPE
 
