@@ -341,10 +341,13 @@ class ModelChatBlueprint(ParlAIChatBlueprint):
         Specifies what options within a task_config should be forwarded to the client
         for use by the task's frontend.
         """
-        with open(
-            self.args.blueprint.annotations_config_path, "r", encoding="utf-8-sig"
-        ) as f:
-            annotation_buckets = json.loads(f.read())
+        if self.args.blueprint.get('annotations_config_path', '') != '':
+            with open(
+                self.args.blueprint.annotations_config_path, "r", encoding="utf-8-sig"
+            ) as f:
+                annotation_buckets = json.loads(f.read())
+        else:
+            annotation_buckets = None
 
         return {
             "min_num_turns": self.args.blueprint.num_turns,
