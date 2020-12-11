@@ -47,6 +47,11 @@ class ModelChatOnboardWorld(CrowdOnboardWorld):
 
     def __init__(self, opt, agent: "MephistoAgentWrapper"):
         super().__init__(opt, agent)
+
+        self.skip_onboarding = opt['annotations_config'] is None
+        # The onboarding checks how well workers annotate conversations, so it should be
+        # skipped if we are not annotating
+
         self.min_correct = ONBOARD_CONFIG['min_correct']
         self.max_incorrect = ONBOARD_CONFIG['max_incorrect']
         self.onboard_task_data = opt['onboard_task_data']
@@ -101,23 +106,31 @@ class ModelChatOnboardWorld(CrowdOnboardWorld):
         return False
 
     def parley(self):
-        print(
-            f'{self.__class__.__name__}: starting parley for worker_id: {self.worker_id}'
-        )
 
-        # We are rendering a frontend based on the initial task data, so we just
-        # wait for the results to come in
-        act = self.agent.act(timeout=self.max_onboard_time)
-        self.status = self._handle_act(act)
-        self.agent.observe({'id': 'SYSTEM', 'text': '', 'final_status': self.status})
-        if self.status == ONBOARD_FAIL:
-            start_time = time.time()
-            # After soft ban, we just block in while loop until worker goes
-            # away (Disconnects or returns the HIT as asked on the frontend)
-            while time.time() - start_time < self.max_onboard_time:
-                _ = self.agent.act(timeout=self.max_onboard_time)
-                time.sleep(0.5)
-        return None
+        if not self.skip_onboarding:
+
+            print(
+                f'{self.__class__.__name__}: starting parley for worker_id: {self.worker_id}'
+            )
+
+            # We are rendering a frontend based on the initial task data, so we just
+            # wait for the results to come in
+            act = self.agent.act(timeout=self.max_onboard_time)
+            self.status = self._handle_act(act)
+            self.agent.observe({'id': 'SYSTEM', 'text': '', 'final_status': self.status})
+            if self.status == ONBOARD_FAIL:
+                start_time = time.time()
+                # After soft ban, we just block in while loop until worker goes
+                # away (Disconnects or returns the HIT as asked on the frontend)
+                while time.time() - start_time < self.max_onboard_time:
+                    _ = self.agent.act(timeout=self.max_onboard_time)
+                    time.sleep(0.5)
+            return None
+
+        else:
+
+            self.episodeDone = True  # Send the user directly to the HIT
+            self.status = ONBOARD_SUCCESS  # Approve user by default
 
     def _handle_act(self, act):
         if 'task_data' not in act:

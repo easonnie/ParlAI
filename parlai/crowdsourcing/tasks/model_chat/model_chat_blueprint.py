@@ -137,11 +137,15 @@ class ModelChatBlueprintArgs(ParlAIChatBlueprintArgs):
     )
     annotations_config_path: str = field(
         default="${mephisto.blueprint.task_config_path}/annotations_config.json",
-        metadata={"help": 'Path to JSON of annotation categories. Set to "" to disable annotations'},
+        metadata={
+            "help": 'Path to JSON of annotation categories. Set to "" to disable annotations'
+        },
     )
     onboard_task_data_path: str = field(
         default="${mephisto.blueprint.task_config_path}/onboard_task_data.json",
-        metadata={"help": "Path to JSON containing settings for running onboarding"},
+        metadata={
+            "help": "Path to JSON containing settings for running onboarding. Not used if not annotating model responses"
+        },
     )
     final_rating_question: str = field(
         default='Please rate your partner on a scale of 1-5.',
@@ -226,13 +230,13 @@ class ModelChatBlueprint(ParlAIChatBlueprint):
                 full_path
             ), f"Target annotation config path {full_path} doesn't exist"
 
-        assert (
-            args.blueprint.get("onboard_task_data_path", None) is not None
-        ), "Must provide an onboarding data file"
-        full_path = os.path.expanduser(args.blueprint.onboard_task_data_path)
-        assert os.path.exists(
-            full_path
-        ), f"Target onboarding data path {full_path} doesn't exist"
+            assert (
+                args.blueprint.get("onboard_task_data_path", None) is not None
+            ), "Must provide an onboarding data file"
+            full_path = os.path.expanduser(args.blueprint.onboard_task_data_path)
+            assert os.path.exists(
+                full_path
+            ), f"Target onboarding data path {full_path} doesn't exist"
 
     def __init__(
         self, task_run: "TaskRun", args: "DictConfig", shared_state: "SharedTaskState"
@@ -263,13 +267,14 @@ class ModelChatBlueprint(ParlAIChatBlueprint):
             )
             with open(annotations_config_path, "r") as annotations_config_file:
                 self.annotations_config = annotations_config_file.read()
+            onboard_task_data_path = os.path.expanduser(
+                args.blueprint.onboard_task_data_path
+            )
+            with open(onboard_task_data_path, "r") as onboard_task_data_file:
+                self.onboard_task_data = json.load(onboard_task_data_file)
         else:
             self.annotations_config = None
-        onboard_task_data_path = os.path.expanduser(
-            args.blueprint.onboard_task_data_path
-        )
-        with open(onboard_task_data_path, "r") as onboard_task_data_file:
-            self.onboard_task_data = json.load(onboard_task_data_file)
+            self.onboard_task_data = None
 
         run_statistics = {r: 0 for (r, v) in self.conversations_needed.items()}
         shared_state.run_statistics = run_statistics
